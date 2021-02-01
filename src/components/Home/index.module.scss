@@ -1,0 +1,9 @@
+.home_wrap {
+  width: 40%;
+  margin: 0 auto;
+  & p {
+    font-size: 30vh;
+    font-weight: 600;
+    margin: 0;
+  }
+}
