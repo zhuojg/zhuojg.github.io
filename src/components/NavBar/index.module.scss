@@ -24,3 +24,20 @@
     }
   }
 }
+
+.home_button {
+  position: absolute;
+  left: 24px;
+  font-size: 18px;
+
+  & a {
+    padding: 12px;
+    vertical-align: middle;
+    border-radius: 6px;
+    transition: all ease-in-out 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}

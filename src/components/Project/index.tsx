@@ -28,7 +28,7 @@ const Project = () => {
     <div>
       <div>
         {projectList.map((item: ProjectItem) => (
-          <div>
+          <div key={item.name}>
             <Link to={item.path}>{item.name}</Link>
           </div>
         ))}
@@ -36,7 +36,7 @@ const Project = () => {
 
       <Switch>
         {projectList.map((item) => (
-          <Route path={item.path}>
+          <Route path={item.path} key={item.name}>
             <item.component />
           </Route>
         ))}
