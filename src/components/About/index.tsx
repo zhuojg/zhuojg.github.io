@@ -86,9 +86,9 @@ const About = () => {
         <p>
           I am now a master student at{' '}
           <a href="https://sheji.ai" target="_blank" rel="noreferrer">
-            Design A.I Lab
+            Design A.I. Lab
           </a>
-          , Design & Innovation College, Tongji University. And I took my
+          , College of Design & Innovation, Tongji University. And I took my
           bachelor's degree in Computer Science at Tongji University.
         </p>
         <p>
