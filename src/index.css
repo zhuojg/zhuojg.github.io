@@ -19,6 +19,17 @@ body {
     '%PUBLIC_URL%/fonts/CascadiaCode.woff2' format('woff');
 }
 
+a {
+  text-decoration: none;
+  color: rgb(0, 127, 255);
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  color: rgba(0, 127, 255, 0.6)
+}
+
+
 .button {
   padding: 12px;
   vertical-align: middle;
@@ -34,6 +45,10 @@ body {
 
 .button a {
   text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.button a:hover {
   color: rgb(0, 0, 0);
 }
 
