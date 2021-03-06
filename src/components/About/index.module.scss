@@ -1,0 +1,52 @@
+.about_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 20%;
+  margin: 24px 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.basic_info_wrap {
+  margin-bottom: 24px;
+}
+
+.links_wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.links_item {
+  position: relative;
+  margin: 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &_popover {
+    background: white;
+    top: 48px;
+    position: absolute;
+
+    &_content {
+      padding: 24px;
+      border-radius: 6px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease-in-out;
+    }
+
+    &_none {
+      display: none;
+      opacity: 0;
+    }
+  }
+}
+
+.intro_wrap {
+  margin: 0 auto;
+  text-align: left;
+  line-height: 1.5;
+}
