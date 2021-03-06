@@ -1,0 +1,48 @@
+.project_list {
+  margin: 24px 0;
+
+  &_title {
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  &_content {
+    margin-bottom: 12px;
+
+    &_title {
+      font-size: 20px;
+      line-height: 1.5;
+    }
+  }
+}
+
+.content {
+  margin-top: 48px;
+  line-height: 1.2;
+
+  &_title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  &_note {
+    color: rgba(0, 0, 0, 0.4);
+    margin-bottom: 12px;
+  }
+
+  &_links {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    &_item {
+      margin-right: 6px;
+    }
+  }
+
+  &_body {
+    line-height: 2;
+  }
+}
