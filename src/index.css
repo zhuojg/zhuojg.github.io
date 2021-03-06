@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family: 'CascadiaCode', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'CascadiaCode', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,4 +17,36 @@ body {
   font-family: 'CascadiaCode';
   src: local('CascadiaCode'),
     '%PUBLIC_URL%/fonts/CascadiaCode.woff2' format('woff');
+}
+
+.button {
+  padding: 12px;
+  vertical-align: middle;
+  border-radius: 6px;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+}
+
+.button:hover {
+  color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.button a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.divider {
+  width: 100%;
+  padding: 24px 0;
+
+  display: flex;
+}
+
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.25);
 }
