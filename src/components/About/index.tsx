@@ -6,14 +6,14 @@ import classnames from 'classnames'
 
 interface SocialLink {
   name: string
-  url: string | null
+  url: string | undefined
   content: React.ReactNode
 }
 
 const linkList: SocialLink[] = [
   {
     name: 'WeChat',
-    url: null,
+    url: undefined,
     content: (
       <img src={wechat} style={{ height: '128px' }} alt="wechat-qrcode" />
     ),
@@ -21,17 +21,17 @@ const linkList: SocialLink[] = [
   {
     name: 'Linkedin',
     url: 'https://www.linkedin.com/in/jgzhuo/',
-    content: null,
+    content: undefined,
   },
   {
     name: 'E-mail',
     url: 'mailto:jg.zhuo@outlook.com',
-    content: null,
+    content: undefined,
   },
   {
     name: 'Github',
     url: 'https://github.com/zhuojg',
-    content: null,
+    content: undefined,
   },
 ]
 
@@ -50,15 +50,13 @@ const LinkWithPopover = (props: SocialLink) => {
       }}
       key={name}
     >
-      <div className="button">
-        {url ? (
-          <a href={url} target="_blank" rel="noreferrer">
-            {name}
-          </a>
-        ) : (
-          name
-        )}
-      </div>
+      {url ? (
+        <a href={url} target="_blank" rel="noreferrer" className="button">
+          {name}
+        </a>
+      ) : (
+        <div className="button">{name}</div>
+      )}
       {!!content && (
         <div
           className={classnames({

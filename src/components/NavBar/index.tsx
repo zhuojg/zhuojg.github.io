@@ -17,19 +17,18 @@ const NavBar = (props: { linkList: NavItem[] }) => {
   return (
     <div className={styles.nav_wrap}>
       {linkList.map((item: NavItem) => (
-        <div
+        <Link
           className={classnames([styles.nav_item, 'button'])}
           key={item.name}
+          to={item.path}
         >
-          <Link to={item.path}>{item.name}</Link>
-        </div>
+          {item.name}
+        </Link>
       ))}
       {location.pathname !== '/' && (
-        <div className={styles.home_button}>
-          <Link to="/">
-            <VscHome style={{ color: 'black', verticalAlign: 'middle' }} />
-          </Link>
-        </div>
+        <Link to="/" className={styles.home_button}>
+          <VscHome style={{ color: 'black', verticalAlign: 'middle' }} />
+        </Link>
       )}
     </div>
   )
