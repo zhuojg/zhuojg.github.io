@@ -3,6 +3,7 @@ import styles from './index.module.scss'
 import avatar from '../../assets/avatar.png'
 import wechat from '../../assets/wechat.jpg'
 import classnames from 'classnames'
+import LoadingImage from '../LoadingImage'
 
 interface SocialLink {
   name: string
@@ -74,7 +75,15 @@ const LinkWithPopover = (props: SocialLink) => {
 const About = () => {
   return (
     <div className={styles.about_wrap}>
-      <img className={styles.avatar} src={avatar} alt="avatar" />
+      {/* <img className={styles.avatar} src={avatar} alt="avatar" /> */}
+      <div className={styles.avatar}>
+        <LoadingImage
+          src={avatar}
+          alt="zhuojg"
+          spinner={<div className="loader"></div>}
+        />
+      </div>
+
       <div className={styles.basic_info_wrap}>Jinggang Zhuo | 卓京港</div>
       <div className={styles.links_wrap}>
         {linkList.map((item) => LinkWithPopover(item))}

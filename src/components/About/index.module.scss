@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
 }
 
 .avatar {
   width: 20%;
+  min-height: 160px;
   margin: 24px 0;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 
 .basic_info_wrap {
