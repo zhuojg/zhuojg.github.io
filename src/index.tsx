@@ -2,12 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './index.css'
-import Home from './components/Home'
+
 import Footer from './components/Footer'
 import Container from './components/Container'
 import NavBar, { NavItem } from './components/NavBar'
-import About from './components/About'
-import Project, { ProjectItem } from './components/Project'
+
+import Home from './pages/Home'
+import About from './pages/About'
+import Project, { ProjectItem } from './pages/Project'
+
 import reportWebVitals from './reportWebVitals'
 
 const linkList: NavItem[] = [

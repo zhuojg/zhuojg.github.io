@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 import avatar from '../../assets/avatar.png'
 import wechat from '../../assets/wechat.jpg'
 import classnames from 'classnames'
-import LoadingImage from '../LoadingImage'
+import LoadingImage from '../../components/LoadingImage'
 
 interface SocialLink {
   name: string
