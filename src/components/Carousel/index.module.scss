@@ -1,0 +1,26 @@
+.wrap {
+  width: 800px;
+  position: relative;
+}
+
+.item {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: all 0.2s ease-in-out;
+  width: 800px;
+}
+
+.showing_item {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.last_item {
+  transform: translateX(-100%);
+}
+
+.next_item {
+  transform: translateX(100%);
+}

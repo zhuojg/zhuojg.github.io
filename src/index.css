@@ -5,6 +5,13 @@ body {
     'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
 }
 
 #root {
@@ -57,6 +64,11 @@ a:hover {
   color: rgb(0, 0, 0);
 }
 
+.inline-button {
+  color: rgba(240, 240, 240, 1);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 .divider {
   width: 100%;
   padding: 24px 0;
@@ -70,4 +82,3 @@ a:hover {
   height: 1px;
   background: rgba(0, 0, 0, 0.25);
 }
-

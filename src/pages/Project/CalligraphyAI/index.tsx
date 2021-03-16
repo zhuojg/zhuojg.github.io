@@ -18,6 +18,7 @@ const CalligraphyAI = () => {
       </div>
 
       <div className={styles.content_links}>
+        Links:
         <div className={styles.content_links_item}>
           <a
             href="https://arxiv.org/abs/2012.00744"
@@ -28,6 +29,8 @@ const CalligraphyAI = () => {
           </a>
         </div>
       </div>
+
+      <div className="divider"></div>
 
       <div className={styles.content_body}>
         With the advancement of deep learning, artificial intelligence (AI) has
