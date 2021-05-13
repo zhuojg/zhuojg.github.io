@@ -11,7 +11,6 @@ const Footer = () => {
             <div>Create React App</div>
             <div>TailwindCSS</div>
             <div>GitHub</div>
-            <div>gh-pages</div>
           </div>
         </div>
         <div className="flex flex-col justify-end">
