@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-function App() {
+import Home from '@/pages/Home'
+import NavBar from '@/components/NavBar'
+import Container from '@/components/Container'
+import Footer from '@/components/Footer'
+
+const App = () => {
+  const [dark, setDark] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={dark ? 'dark' : ''}>
+      <Router>
+        <div className="flex flex-col min-h-screen text-gray-900 dark:bg-gray-700 dark:text-gray-100">
+          <NavBar
+            toggleDarkMode={() => {
+              setDark(!dark)
+            }}
+          />
+          <Container>
+            <Home />
+          </Container>
+          <Footer />
+        </div>
+      </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
