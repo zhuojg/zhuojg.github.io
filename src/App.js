@@ -10,9 +10,9 @@ const App = () => {
   const [dark, setDark] = useState(false)
 
   return (
-    <div className={dark ? 'dark' : ''}>
+    <div className={`h-screen ${dark ? 'dark' : ''}`}>
       <Router>
-        <div className="flex flex-col min-h-screen text-gray-900 dark:bg-gray-700 dark:text-gray-100">
+        <div className="min-h-screen flex flex-col text-gray-900 dark:bg-gray-700 dark:text-gray-100">
           <NavBar
             toggleDarkMode={() => {
               setDark(!dark)

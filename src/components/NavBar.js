@@ -6,7 +6,7 @@ const NavBar = (props) => {
   const history = useHistory()
 
   return (
-    <div className="container mx-auto h-16 border-b-2">
+    <div className="container px-2 lg:px-0 mx-auto h-16 border-b-2">
       <div className="grid grid-cols-4 h-full">
         <div className="flex flex-col flex-grow-0 justify-center">
           <div
@@ -21,7 +21,7 @@ const NavBar = (props) => {
         <div className="col-span-2" />
         <div className="flex flex-col flex-grow-0 justify-center h-full">
           <div className="text-right flex flex-row justify-end">
-            <button
+            <div
               className="p-2 cursor-pointer rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={() => {
                 toggleDarkMode()
@@ -41,7 +41,7 @@ const NavBar = (props) => {
                   d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
                 />
               </svg>
-            </button>
+            </div>
           </div>
         </div>
       </div>
