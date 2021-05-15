@@ -4,20 +4,29 @@ import avatar from '@/assets/avatar.jpg'
 const Card = (props) => {
   const { label, children, bgFrom, bgTo, scaleFrom } = props
 
-  const [scale, setScale] = useState(scaleFrom)
-  const [opacity, setOpacity] = useState(0)
+  // const [scale, setScale] = useState(`scale-${scaleFrom}`)
+  // const [opacity, setOpacity] = useState(0)
+  const [initializing, setInitializing] = useState(true)
+
+  // !! Notice
+  // !! do not use something like `from-${bgFrom}`, use complete classname instead
+  // !! because tailwindcss will not include corresponding styles in build stylesheet
+  // !! reference: https://tailwindcss.com/docs/optimizing-for-production
 
   useEffect(() => {
-    setScale(100)
-    setOpacity(100)
+    setInitializing(false)
   }, [])
 
   return (
     <div
-      className={`transition-all duration-1000 transform-gpu opacity-${opacity}`}
+      className={`transition-all duration-1000 transform-gpu ${
+        initializing ? 'opacity-0' : 'opacity-100'
+      }`}
     >
       <div
-        className={`relative h-full p-8 rounded-lg bg-gradient-to-r from-${bgFrom} to-${bgTo} text-gray-50 transition-all transform-gpu duration-1000 scale-${scale}`}
+        className={`relative h-full p-8 rounded-lg bg-gradient-to-r ${bgFrom} ${bgTo} text-gray-50 transition-all transform-gpu duration-1000 ${
+          initializing ? scaleFrom : 'scale-100'
+        }`}
       >
         {!!label && (
           <div className="absolute rounded-lg bg-white bg-opacity-20 text-center p-2 text-xl font-mono text-gray-50 z-10 top-0 right-0">
@@ -31,7 +40,7 @@ const Card = (props) => {
 }
 
 const BasicInfo = () => (
-  <Card bgFrom="indigo-500" bgTo="blue-400" scaleFrom={50}>
+  <Card bgFrom="from-indigo-500" bgTo="to-blue-400" scaleFrom="scale-50">
     <div className="h-full flex flex-col items-center justify-between">
       <img className="h-24 w-24 rounded-full inline-block" src={avatar} />
       <div className="flex flex-col justify-around space-y-2 mt-6">
@@ -94,7 +103,12 @@ const BasicInfo = () => (
 )
 
 const EducationInfo = () => (
-  <Card bgFrom="blue-400" bgTo="green-500" scaleFrom={75} label="Education">
+  <Card
+    bgFrom="from-blue-400"
+    bgTo="to-green-500"
+    scaleFrom="scale-75"
+    label="Education"
+  >
     <div className="flex flex-col space-y-2 mt-6">
       <div className="">
         <div className="font-bold text-lg font-mono">AI and Data Design</div>
@@ -111,7 +125,12 @@ const EducationInfo = () => (
 )
 
 const InternshipInfo = () => (
-  <Card bgFrom="green-500" bgTo="indigo-500" scaleFrom={50} label="Internship">
+  <Card
+    bgFrom="from-green-500"
+    bgTo="to-indigo-500"
+    scaleFrom="scale-50"
+    label="Internship"
+  >
     <div className="flex flex-col space-y-2 mt-6">
       <div className="">
         <div className="font-bold text-lg font-mono">NetScout Shanghai</div>
@@ -175,9 +194,9 @@ const Home = () => {
         time="Dec, 2020"
         description='"A Framework and Dataset for Abstract Art Generation via CalligraphyGAN", accepted by Machine Learning for Creativity and Design, NeurIPS Workshop'
         url="https://arxiv.org/abs/2012.00744"
-        bgFrom="yellow-400"
-        bgTo="red-400"
-        scaleFrom="75"
+        bgFrom="from-yellow-400"
+        bgTo="to-red-400"
+        scaleFrom="scale-75"
       />
 
       <Project
@@ -185,9 +204,9 @@ const Home = () => {
         time="Dec, 2020"
         description="Reimplement part of sg2im in TensorFlow 2.3, and trained it on magazine dataset to generate layout data from scene graph."
         url="https://github.com/zhuojg/sg2layout"
-        bgFrom="red-400"
-        bgTo="pink-400"
-        scaleFrom="50"
+        bgFrom="from-red-400"
+        bgTo="to-pink-400"
+        scaleFrom="scale-50"
       />
 
       <Project
@@ -195,9 +214,9 @@ const Home = () => {
         time="Mar, 2021"
         description='"Culture-inspired Multi-modal Color Palette Generation and Colorization: A Chinese Youth Subculture Case", accepted by The 3rd IEEE Workshop on Artificial Intelligence for Art Creation.'
         url="https://github.com/tezignlab/subculture-colorization"
-        bgFrom="pink-400"
-        bgTo="yellow-400"
-        scaleFrom="75"
+        bgFrom="from-pink-400"
+        bgTo="to-yellow-400"
+        scaleFrom="scale-75"
       />
     </div>
   )
