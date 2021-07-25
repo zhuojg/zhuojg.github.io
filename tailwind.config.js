@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['"Cascadia Code"'],
+        mono: ['"Cascadia Code"', 'system-ui', '-apple-system'],
       },
       scale: {
         '250': '2.5',

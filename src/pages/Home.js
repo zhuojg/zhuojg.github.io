@@ -42,7 +42,11 @@ const Card = (props) => {
 const BasicInfo = () => (
   <Card bgFrom="from-indigo-500" bgTo="to-blue-400" scaleFrom="scale-50">
     <div className="h-full flex flex-col items-center justify-between">
-      <img className="h-24 w-24 rounded-full inline-block" src={avatar} />
+      <img
+        className="h-24 w-24 rounded-full inline-block"
+        src={avatar}
+        alt="avatar"
+      />
       <div className="flex flex-col justify-around space-y-2 mt-6">
         <div className="flex flex-row space-x-2 items-center">
           <svg
@@ -111,14 +115,14 @@ const EducationInfo = () => (
   >
     <div className="flex flex-col space-y-2 mt-6">
       <div className="">
-        <div className="font-bold text-lg font-mono">AI and Data Design</div>
+        <div className="text-lg font-mono">AI and Data Design</div>
         <div className="">Tongji University</div>
-        <div className="">2019 - 2022</div>
+        <div className="opacity-50">2019 - 2022</div>
       </div>
       <div className="">
-        <div className="font-bold text-lg font-mono">Computer Science</div>
+        <div className="text-lg font-mono">Computer Science</div>
         <div className="">Tongji University</div>
-        <div className="">2015 - 2019</div>
+        <div className="opacity-50">2015 - 2019</div>
       </div>
     </div>
   </Card>
@@ -133,14 +137,14 @@ const InternshipInfo = () => (
   >
     <div className="flex flex-col space-y-2 mt-6">
       <div className="">
-        <div className="font-bold text-lg font-mono">NetScout Shanghai</div>
+        <div className="text-lg font-mono">NetScout Shanghai</div>
         <div className="">Technical Support Intern</div>
-        <div className="">2018.05 - 2018.11</div>
+        <div className="opacity-50">2018.05 - 2018.11</div>
       </div>
       <div className="">
-        <div className="font-bold text-lg font-mono">Tezign</div>
+        <div className="text-lg font-mono">Tezign</div>
         <div className="">Algorithms Intern</div>
-        <div className="">2018.12 - 2019.03</div>
+        <div className="opacity-50">2018.12 - 2019.03</div>
       </div>
     </div>
   </Card>
@@ -158,25 +162,32 @@ const Project = (props) => {
           <div className="mt-6">{description}</div>
         </div>
 
-        <button className="mt-6 transform hover:translate-x-2 transition-transform duration-200">
-          <a className="flex" href={url} target="_blank">
-            Learn More
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <div className="flex flex-row">
+          <div className="mt-6 hover:bg-white hover:bg-opacity-20 transition duration-200 rounded-md">
+            <a
+              className="flex transform hover:translate-x-2 transition-transform duration-200 py-2 pr-4"
+              href={url}
+              target="_blank"
+              rel="noreferrer"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </a>
-        </button>
+              Learn More
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
     </Card>
   )

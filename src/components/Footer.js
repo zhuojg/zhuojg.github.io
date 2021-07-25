@@ -5,7 +5,12 @@ const FooterLink = (props) => {
 
   return (
     <div className="hover:text-white">
-      <a className="transition duration-200" href={href} target="_blank">
+      <a
+        className="transition duration-200"
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+      >
         {children}
       </a>
     </div>

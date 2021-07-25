@@ -42,6 +42,16 @@ const NavBar = (props) => {
                 />
               </svg>
             </div>
+
+            <div className="p-2 cursor-pointer rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+              <a
+                href="https://github.com/zhuojg"
+                target="_blank"
+                rel="noreferrer"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
         </div>
       </div>

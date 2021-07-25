@@ -3,8 +3,8 @@
 
 @font-face {
   font-family: 'Cascadia Code';
-  src: local('Cascadia Code'),
-    '%PUBLIC_URL%/fonts/CascadiaCode.woff2' format('woff');
+  src: url('./assets/CascadiaCode.woff2') format('woff'),
+    url('./assets/CascadiaCode.ttf') format('truetype');
 }
 
 @tailwind utilities;
