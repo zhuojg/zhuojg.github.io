@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import avatar from '@/assets/avatar.jpg'
+import clsx from 'clsx'
 
 const Card = (props) => {
   const { label, children, bgFrom, bgTo, scaleFrom } = props
@@ -19,17 +20,33 @@ const Card = (props) => {
 
   return (
     <div
-      className={`transition-all duration-1000 transform-gpu ${
-        initializing ? 'opacity-0' : 'opacity-100'
-      }`}
+      className={clsx(
+        'transition-all duration-1000 transform-gpu',
+        initializing ? 'opacity-0' : 'opacity-100',
+      )}
     >
       <div
-        className={`relative h-full p-8 rounded-lg bg-gradient-to-r ${bgFrom} ${bgTo} text-gray-50 transition-all transform-gpu duration-1000 ${
-          initializing ? scaleFrom : 'scale-100'
-        }`}
+        className={clsx(
+          'relative h-full p-8 rounded-lg',
+          'bg-gradient-to-r',
+          'dark:bg-none',
+          'dark:border-gray-200 dark:border-solid dark:border-2',
+          bgFrom,
+          bgTo,
+          'text-gray-50',
+          'transition-all transform-gpu duration-1000',
+          initializing ? scaleFrom : 'scale-100',
+        )}
       >
         {!!label && (
-          <div className="absolute rounded-lg bg-white bg-opacity-20 text-center p-2 text-xl font-mono text-gray-50 z-10 top-0 right-0">
+          <div
+            className={clsx(
+              'absolute rounded-lg bg-white bg-opacity-20',
+              'text-center text-xl font-mono text-gray-50',
+              // 'dark:bg-opacity-0',
+              'p-2 z-10 top-0 right-0',
+            )}
+          >
             {label}
           </div>
         )}
@@ -43,7 +60,7 @@ const BasicInfo = () => (
   <Card bgFrom="from-indigo-500" bgTo="to-blue-400" scaleFrom="scale-50">
     <div className="h-full flex flex-col items-center justify-between">
       <img
-        className="h-24 w-24 rounded-full inline-block"
+        className="h-24 w-24 rounded-full inline-block border-white border-solid border-2"
         src={avatar}
         alt="avatar"
       />

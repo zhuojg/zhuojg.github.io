@@ -7,15 +7,18 @@ module.exports = {
         mono: ['"Cascadia Code"', 'system-ui', '-apple-system'],
       },
       scale: {
-        '250': '2.5',
-        '300': '3',
-        '350': '3.5',
-        '400': '4'
-      }
+        250: '2.5',
+        300: '3',
+        350: '3.5',
+        400: '4',
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundImage: ['dark'],
+      borderWidth: ['dark'],
+    },
   },
   plugins: [],
 }
