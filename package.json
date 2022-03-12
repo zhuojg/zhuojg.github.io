@@ -17,10 +17,63 @@
     "@types/node": "17.0.21",
     "@types/react": "17.0.39",
     "autoprefixer": "^10.4.2",
+    "commitizen": "^4.2.4",
+    "cz-emoji": "^1.3.1",
     "eslint": "8.10.0",
     "eslint-config-next": "12.1.0",
     "postcss": "^8.4.7",
     "tailwindcss": "^3.0.23",
     "typescript": "4.6.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji"
+    },
+    "cz-emoji": {
+      "types": [
+        {
+          "emoji": "✨",
+          "code": ":sparkles:",
+          "description": "Introduce new features.",
+          "name": "feature"
+        },
+        {
+          "emoji": "🐛",
+          "code": ":bug:",
+          "description": "Fix a bug.",
+          "name": "bug"
+        },
+        {
+          "emoji": "📝",
+          "code": ":memo:",
+          "description": "Add or update documentation.",
+          "name": "doc"
+        },
+        {
+          "emoji": "⚡️",
+          "code": ":zap:",
+          "description": "Improve performance.",
+          "name": "performance"
+        },
+        {
+          "emoji": "🎨",
+          "code": ":art:",
+          "description": "Improve structure / format of the code.",
+          "name": "art"
+        },
+        {
+          "emoji": "🚀",
+          "code": ":rocket:",
+          "description": "Deploy stuff.",
+          "name": "deploy"
+        },
+        {
+          "emoji": "🧱",
+          "code": ":bricks:",
+          "description": "Infrastructure related changes.",
+          "name": "infrastructure"
+        }
+      ]
+    }
   }
 }
