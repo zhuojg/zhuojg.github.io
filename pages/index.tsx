@@ -52,7 +52,7 @@ const Home: NextPage = () => {
         </div>
 
         <h1 className="font-bold text-3xl pt-16">Hi!</h1>
-        <div className="text-base">I'm ZHUO Jinggang.</div>
+        <div className="text-base">I&apos;m ZHUO Jinggang.</div>
       </div>
     </div>
   )
