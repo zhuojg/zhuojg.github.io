@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { FC, useMemo } from 'react'
-import Image from 'next/image'
 import { MailIcon, MarkGithubIcon } from '@primer/octicons-react'
+import { FC, useMemo } from 'react'
 
 export const Contact: FC = () => {
   const CONTACT_INFO = useMemo(
@@ -29,33 +28,23 @@ export const Contact: FC = () => {
         href: 'zhuojg.eth',
       },
     ],
-    []
+    [],
   )
 
   return (
     <div className="flex flex-col space-y-16 lg:space-y-0 lg:flex-row justify-between">
       <div className="flex flex-col items-start space-y-4 justify-start">
         {CONTACT_INFO.map(({ renderIcon, content, href }) => (
-          <div
-            key={content}
-            className="w-full flex justify-start items-center space-x-4"
-          >
+          <div key={content} className="w-full flex justify-start items-center space-x-4">
             {renderIcon()}
-            <a
-              className="text-sm underline decoration-white underline-offset-2"
-              href={href}
-            >
+            <a className="text-sm underline decoration-white underline-offset-2" href={href}>
               {content}
             </a>
           </div>
         ))}
       </div>
 
-      <img
-        className="w-32 h-32 object-contain"
-        src="/images/avatar.jpeg"
-        alt="avatar"
-      />
+      <img className="w-32 h-32 object-contain" src="/images/avatar.jpeg" alt="avatar" />
     </div>
   )
 }

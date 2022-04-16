@@ -1,9 +1,4 @@
-import {
-  LogIcon,
-  LinkIcon,
-  MarkGithubIcon,
-  FileZipIcon,
-} from '@primer/octicons-react'
+import { FileZipIcon, LinkIcon, LogIcon, MarkGithubIcon } from '@primer/octicons-react'
 import { FC, useMemo } from 'react'
 
 interface Project {
@@ -88,7 +83,7 @@ export const Projects: FC = () => {
         ),
       },
     ],
-    []
+    [],
   )
 
   return (
@@ -98,28 +93,11 @@ export const Projects: FC = () => {
         <span className="text-lg font-bold">Projects</span>
       </div>
 
-      <div className="flex space-x-8 items-center mb-4 text-gray-500">
-        <div className="flex space-x-2 items-center">
-          <LinkIcon size={16} />
-          <span className="text-sm">website / demo</span>
-        </div>
-
-        <div className="flex space-x-2 items-center">
-          <MarkGithubIcon size={16} />
-          <span className="text-sm">GitHub repo</span>
-        </div>
-
-        <div className="flex space-x-2 items-center">
-          <LogIcon size={16} />
-          <span className="text-sm">paper</span>
-        </div>
-      </div>
-
       {projects.map(({ name, link, date, renderLinks }) => (
         <div key={name} className="flex justify-between py-8 lg:py-4">
           <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 lg:items-center">
             <a
-              className="underline underline-offset-4 decoration-dotted hover:decoration-solid"
+              className="underline underline-offset-4 decoration-transparent decoration-2 hover:decoration-blue-600 transition-all duration-200 ease-in-out"
               href={link}
               target="_blank"
               rel="noreferrer"

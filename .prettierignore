@@ -1,0 +1,14 @@
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+
+*.*rc
+*.*ignore
+*.lock
+package.json
+package-lock.json
+
+*.sh
+*.conf
+Dockerfile
