@@ -1,3 +1,4 @@
+import { BasicLayout } from '@/components/layout/basic'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'
 import '../styles/globals.css'
@@ -18,7 +19,9 @@ gtag('config', 'G-NED7X2ZRQ2');
   `,
         }}
       />
-      <Component {...pageProps} />
+      <BasicLayout>
+        <Component {...pageProps} />
+      </BasicLayout>
     </>
   )
 }

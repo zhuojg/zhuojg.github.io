@@ -33,14 +33,18 @@ export const Contact: FC = () => {
 
   return (
     <div className="flex flex-col space-y-16 lg:space-y-0 lg:flex-row justify-between">
-      <div className="flex flex-col items-start space-y-4 justify-start">
+      <div className="flex flex-col items-start justify-start">
         {CONTACT_INFO.map(({ renderIcon, content, href }) => (
-          <div key={content} className="w-full flex justify-start items-center space-x-4">
+          <a
+            className="flex justify-start items-center space-x-4 text-sm lg:link no-underline lg:px-4 py-2 my-1"
+            key={content}
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+          >
             {renderIcon()}
-            <a className="text-sm underline decoration-white underline-offset-2" href={href}>
-              {content}
-            </a>
-          </div>
+            <span>{content}</span>
+          </a>
         ))}
       </div>
 

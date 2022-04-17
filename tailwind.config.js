@@ -8,7 +8,6 @@ module.exports = {
       serif: ['"JetBrains Mono"', ...defaultTheme.fontFamily.serif],
       mono: ['"JetBrains Mono"', ...defaultTheme.fontFamily.mono],
     },
-    extend: {},
   },
   plugins: [require('@tailwindcss/typography')],
 }

@@ -1,8 +1,8 @@
+import { Contact } from '@/components/pages/index/contact'
+import { Intro } from '@/components/pages/index/intro'
+import { Projects } from '@/components/pages/index/projects'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Contact } from '../components/home/contact'
-import { Intro } from '../components/home/intro'
-import { Projects } from '../components/home/projects'
 
 const Home: NextPage = () => {
   return (
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-full min-h-screen flex flex-col space-y-16 mt-16">
+      <div className="w-full min-h-screen flex flex-col space-y-32 mt-16">
         <Contact />
         <Intro />
         <Projects />
