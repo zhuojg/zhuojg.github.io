@@ -1,4 +1,4 @@
-import { BasicLayout } from '@/components/layout/basic'
+import { BasicLayout } from '@/modules/common/layout/basic'
 import type { AppProps } from 'next/app'
 import Script from 'next/script'
 import '../styles/globals.css'

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { MailIcon, MarkGithubIcon } from '@primer/octicons-react'
+import { MailIcon, MarkGithubIcon, OrganizationIcon } from '@primer/octicons-react'
 import { FC, useMemo } from 'react'
 
 export const Contact: FC = () => {
@@ -26,6 +26,11 @@ export const Contact: FC = () => {
         ),
         content: 'zhuojg.eth',
         href: 'zhuojg.eth',
+      },
+      {
+        renderIcon: () => <OrganizationIcon size={18} />,
+        content: 'Tezign',
+        href: 'https://www.tezign.com/',
       },
     ],
     [],

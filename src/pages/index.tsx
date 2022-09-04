@@ -1,6 +1,6 @@
-import { Contact } from '@/components/pages/index/contact'
-import { Intro } from '@/components/pages/index/intro'
-import { Projects } from '@/components/pages/index/projects'
+import { Contact } from '@/modules/homepage/components/contact'
+import { Intro } from '@/modules/homepage/components/intro'
+import { Projects } from '@/modules/homepage/components/projects'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 

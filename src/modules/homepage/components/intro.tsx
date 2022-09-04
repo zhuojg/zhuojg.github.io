@@ -1,4 +1,4 @@
-import { Typewriter } from '@/components/common/typewriter'
+import { Typewriter } from '@/modules/common/components/typewriter'
 import { FC } from 'react'
 
 export const Intro: FC = () => {
