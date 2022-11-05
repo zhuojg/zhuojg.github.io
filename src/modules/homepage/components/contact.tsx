@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { MailIcon, MarkGithubIcon, OrganizationIcon } from '@primer/octicons-react'
 import { FC, useMemo } from 'react'
 
@@ -14,18 +13,6 @@ export const Contact: FC = () => {
         renderIcon: () => <MarkGithubIcon size={18} />,
         content: 'zhuojg',
         href: 'https://github.com/zhuojg',
-      },
-      {
-        renderIcon: () => (
-          <img
-            className="object-contain m-0"
-            style={{ height: 18, width: 18 }}
-            src="/images/eth-home-icon.webp"
-            alt="eth"
-          />
-        ),
-        content: 'zhuojg.eth',
-        href: 'zhuojg.eth',
       },
       {
         renderIcon: () => <OrganizationIcon size={18} />,
