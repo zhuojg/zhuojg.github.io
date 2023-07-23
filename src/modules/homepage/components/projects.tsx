@@ -6,6 +6,13 @@ import { ProjectCard } from './projectCard'
 const projects: Project[] = [
   {
     Icon: () => <LinkIcon size={18} />,
+    name: 'MuseAI',
+    link: 'https://museai.cc',
+    date: 'Jul, 2023',
+    introduction: 'AIGC Playground',
+  },
+  {
+    Icon: () => <LinkIcon size={18} />,
     name: 'MyMfers',
     link: 'https://mymfers.xyz',
     date: 'Sept, 2022',

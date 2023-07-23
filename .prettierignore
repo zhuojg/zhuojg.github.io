@@ -12,3 +12,5 @@ package-lock.json
 *.sh
 *.conf
 Dockerfile
+
+public/*
