@@ -10,7 +10,11 @@ export const ProjectCard: FC<{ project: Project }> = ({ project }) => {
 
   return (
     <a
-      className={clsx('flex flex-col py-8 space-y-2 lg:link lg:px-4 cursor-pointer', 'no-underline')}
+      className={clsx(
+        'flex flex-col py-4 space-y-2 px-4 cursor-pointer',
+        'no-underline rounded-lg',
+        'hover:bg-zinc-900 transition-all duration-200 ease-in-out',
+      )}
       ref={ref}
       href={link}
       target="_blank"
@@ -38,6 +42,7 @@ export const ProjectCard: FC<{ project: Project }> = ({ project }) => {
           'text-sm',
           isHovering ? 'text-gray-200' : 'text-gray-500',
           'transition-all duration-300 ease-in-out',
+          'whitespace-pre-line',
         )}
       >
         {introduction}

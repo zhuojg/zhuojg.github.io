@@ -1,5 +1,4 @@
 import { Contact } from '@/modules/homepage/components/contact'
-import { Intro } from '@/modules/homepage/components/intro'
 import { Projects } from '@/modules/homepage/components/projects'
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -15,7 +14,7 @@ const Home: NextPage = () => {
 
       <div className="w-full min-h-screen flex flex-col space-y-32 mt-16">
         <Contact />
-        <Intro />
+        {/* <Intro /> */}
         <Projects />
       </div>
     </div>

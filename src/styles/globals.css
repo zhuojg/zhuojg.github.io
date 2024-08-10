@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .link {
-    @apply transition-all;
-    @apply duration-300;
-    @apply ease-in-out;
-    @apply bg-[length:0];
-    @apply hover:bg-[length:100%];
-    @apply bg-no-repeat;
-    @apply bg-gradient-to-r;
-    @apply from-blue-600;
-    @apply to-blue-600;
-    @apply bg-left;
-    @apply no-underline;
-    @apply rounded-lg;
-  }
-}
-
 /* The typing effect */
 @keyframes typing {
   from {

@@ -1,4 +1,5 @@
 import { MailIcon, MarkGithubIcon, OrganizationIcon } from '@primer/octicons-react'
+import clsx from 'clsx'
 import { FC, useMemo } from 'react'
 
 export const Contact: FC = () => {
@@ -27,16 +28,28 @@ export const Contact: FC = () => {
     <div className="flex flex-col space-y-16 lg:space-y-0 lg:flex-row justify-between">
       <div className="flex flex-col items-start justify-start">
         {CONTACT_INFO.map(({ renderIcon, content, href }) => (
-          <a
-            className="flex justify-start items-center space-x-4 text-sm lg:link no-underline lg:px-4 py-2 my-1"
-            key={content}
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {renderIcon()}
-            <span>{content}</span>
-          </a>
+          <div className="px-4" key={content}>
+            <a
+              className={clsx(
+                'relative w-full group flex justify-start items-center',
+                'text-sm py-2 my-1',
+                'no-underline',
+              )}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {renderIcon()}
+              <span className="ml-4">{content}</span>
+              <div
+                className={clsx(
+                  'w-0 h-full border-b border-white absolute left-0 top-0 bottom-0',
+                  'group-hover:w-full',
+                  'transition-all duration-200 ease-in-out',
+                )}
+              />
+            </a>
+          </div>
         ))}
       </div>
 
