@@ -6,6 +6,13 @@ import { ProjectCard } from './projectCard'
 const projects: Project[] = [
   {
     Icon: () => <AppsIcon size={18} />,
+    name: 'Suprematics.AI',
+    link: 'https://suprematics.ai',
+    date: 'Oct, 2025',
+    introduction: 'From Concept to Viral, In Just One Sentence',
+  },
+  {
+    Icon: () => <AppsIcon size={18} />,
     name: 'GenDAM',
     link: 'https://gendam.ai',
     date: 'May, 2024',
