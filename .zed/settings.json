@@ -1,0 +1,21 @@
+{
+  // BIOME RELATED CONFIG
+  "language_servers": ["biome", "!eslint", "..."],
+  "code_actions_on_format": {
+    "source.fixAll.biome": true,
+    "source.organizeImports.biome": true
+  },
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true
+      }
+    }
+  },
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  }
+  // END OF BIOME RELATED CONFIG
+}

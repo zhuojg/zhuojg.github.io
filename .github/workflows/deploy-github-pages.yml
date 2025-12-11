@@ -14,17 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Build
         run: |
-          npm i
-          npm run build
-          npm run export
+          bun i
+          bun run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
