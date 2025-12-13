@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@import '@fontsource-variable/jetbrains-mono';
+
+body {
+  @apply m-0;
+}
+
+@theme {
+    --color-foreground: var(--color-foreground);
+    --color-background: var(--color-background);
+    --color-border: var(--color-border);
+    --font-mono:'JetBrains Mono Variable', monospace;
+}
+
+.root {
+  isolation: isolate;
+}
+
+:root {
+  --color-foreground: #000000;
+  --color-background: #ffffff;
+  --color-border: #e5e5e5;
+}
+
+.dark {
+        --color-foreground: #ffffff;
+        --color-background: #000000;
+        --color-border: #333333;
+}
