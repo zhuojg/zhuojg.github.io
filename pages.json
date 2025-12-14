@@ -2,8 +2,12 @@
   "pages": [
     {
       "path": "/"
+    },
+    {
+      "path": "/rebuilt-rotation-in-react-konva",
+      "fromCrawl": true
     }
   ],
   "host": "https://zhuojg.github.io",
-  "lastBuilt": "2025-12-14T03:29:53.905Z"
+  "lastBuilt": "2025-12-14T15:24:47.750Z"
 }
