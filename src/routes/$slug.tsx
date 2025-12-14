@@ -1,6 +1,8 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { allPosts } from "content-collections";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { gruvboxDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { cn } from "@/utils";
 
@@ -33,7 +35,7 @@ const components = {
   h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
       className={cn(
-        "mt-10 scroll-m-20 pb-1 text-xl font-semibold tracking-tight first:mt-0",
+        "mt-10 scroll-m-20 pb-1 text-2xl font-semibold tracking-tight first:mt-0",
         className,
       )}
       {...props}
@@ -64,13 +66,13 @@ const components = {
     />
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className={cn("leading-7 not-first:mt-6", className)} {...props} />
+    <p className={cn("leading-7 tracking-tight not-first:mt-6", className)} {...props} />
   ),
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
+    <ul className={cn("my-3 ml-6 list-disc tracking-tight", className)} {...props} />
   ),
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn("my-6 ml-6 list-decimal", className)} {...props} />
+    <ol className={cn("my-3 ml-6 list-decimal tracking-tight", className)} {...props} />
   ),
   li: ({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
     <li className={cn("mt-2", className)} {...props} />
@@ -81,7 +83,7 @@ const components = {
   }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
       className={cn(
-        "mt-6 border-l-2 pl-6 italic [&>*]:text-muted-foreground",
+        "mt-6 border-l-2 pl-6 italic *:text-muted-foreground tracking-tight",
         className,
       )}
       {...props}
@@ -92,7 +94,7 @@ const components = {
     alt,
     ...props
   }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    <img className={cn("rounded-md border", className)} alt={alt} {...props} />
+    <img className={cn("rounded-md", className)} alt={alt} {...props} />
   ),
   hr: ({ ...props }) => <hr className="my-4 md:my-8" {...props} />,
   table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
@@ -131,23 +133,30 @@ const components = {
     />
   ),
   pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      className={cn(
-        " overflow-x-auto rounded-lg border bg-black py-4",
-        className,
-      )}
-      {...props}
-    />
+    <pre className={cn("overflow-x-auto py-4", className)} {...props} />
   ),
-  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className={cn(
-        "relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-sm",
-        className,
-      )}
-      {...props}
-    />
-  ),
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    const match = className?.match(/(?:^|\s)language-([^\s]+)/);
+
+    if (match) {
+      return (
+        <SyntaxHighlighter
+          language={match[1]}
+          // @ts-expect-error this should work fine
+          style={gruvboxDark}
+          className={cn("rounded", className)}
+          {...props}
+        />
+      );
+    }
+
+    return (
+      <code
+        className={cn("bg-foreground/20 font-mono", className)}
+        {...props}
+      />
+    );
+  },
 };
 
 function RouteComponent() {
@@ -155,15 +164,15 @@ function RouteComponent() {
   return (
     <div
       className={cn(
-        "min-h-screen mx-6 md:mx-auto md:max-w-3xl",
+        "min-h-screen md:mx-auto md:max-w-3xl",
         "before:top-16 before:absolute before:-m-px before:inset-x-0 before:w-full before:h-px before:bg-border",
       )}
     >
       <div
         className={cn(
           "min-h-screen flex flex-col relative",
-          "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-border before:-ml-px",
-          "after:absolute after:right-0 after:top-0 after:bottom-0 after:w-px after:bg-border after:-mr-px",
+          "md:before:absolute md:before:left-0 md:before:top-0 md:before:bottom-0 md:before:w-px md:before:bg-border md:before:-ml-px",
+          "md:after:absolute md:after:right-0 md:after:top-0 md:after:bottom-0 md:after:w-px md:after:bg-border md:after:-mr-px",
         )}
       >
         <div className="h-16 flex items-center px-4 justify-between text-sm md:text-base">
@@ -178,7 +187,7 @@ function RouteComponent() {
         </div>
 
         <div className="grow flex flex-col p-4">
-          <div className={cn("flex flex-col")}>
+          <div className={cn("flex flex-col pb-32")}>
             <h1 className="font-semibold text-2xl"> {post.title}</h1>
             <span className="text-sm opacity-75 mt-8 mb-8">
               {post.publishedAt}
