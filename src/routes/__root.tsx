@@ -38,7 +38,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        {/*<!-- Google tag (gtag.js) -->*/}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-NED7X2ZRQ2"
+        />
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: google analytics
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NED7X2ZRQ2');`,
+          }}
+        />
       </head>
+
       <body className="bg-background text-foreground font-mono">
         <ThemeProvider enableSystem attribute="class">
           <div className="grow">{children}</div>
