@@ -18,14 +18,21 @@ const config = defineConfig({
     tanstackStart({
       sitemap: {
         enabled: true,
-        host: "https://zhuojg.github.io",
+        host: "https://zhuojg.github.io/",
       },
       prerender: {
         enabled: true,
         autoStaticPathsDiscovery: true,
         crawlLinks: true,
       },
-      pages: [{ path: "/" }],
+      pages: [
+        {
+          path: "/",
+          sitemap: {
+            priority: 1,
+          },
+        },
+      ],
     }),
     viteReact(),
   ],

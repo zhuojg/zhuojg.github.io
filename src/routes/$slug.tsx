@@ -19,6 +19,19 @@ export const Route = createFileRoute("/$slug")({
 
     return { post };
   },
+  head: ({ loaderData }) => ({
+    meta: loaderData
+      ? [
+          {
+            title: loaderData.post.title,
+          },
+          { name: "description", content: loaderData.post.summary },
+          { property: "og:type", content: "website" },
+          { property: "og:title", content: loaderData.post.title },
+          { property: "og:description", content: loaderData.post.summary },
+        ]
+      : [],
+  }),
   component: RouteComponent,
 });
 
@@ -66,13 +79,22 @@ const components = {
     />
   ),
   p: ({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className={cn("leading-7 tracking-tight not-first:mt-6", className)} {...props} />
+    <p
+      className={cn("leading-7 tracking-tight not-first:mt-6", className)}
+      {...props}
+    />
   ),
   ul: ({ className, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className={cn("my-3 ml-6 list-disc tracking-tight", className)} {...props} />
+    <ul
+      className={cn("my-3 ml-6 list-disc tracking-tight", className)}
+      {...props}
+    />
   ),
   ol: ({ className, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className={cn("my-3 ml-6 list-decimal tracking-tight", className)} {...props} />
+    <ol
+      className={cn("my-3 ml-6 list-decimal tracking-tight", className)}
+      {...props}
+    />
   ),
   li: ({ className, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
     <li className={cn("mt-2", className)} {...props} />
