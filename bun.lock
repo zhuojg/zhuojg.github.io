@@ -27,6 +27,7 @@
         "@content-collections/mdx": "^0.2.2",
         "@content-collections/vite": "^0.2.7",
         "@fontsource-variable/jetbrains-mono": "^5.2.8",
+        "@fontsource/ibm-plex-mono": "^5.2.7",
         "@tanstack/devtools-vite": "^0.3.11",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/react": "^16.2.0",
@@ -212,6 +213,8 @@
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "https://registry.npmmirror.com/@floating-ui/utils/-/utils-0.2.10.tgz", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
 
     "@fontsource-variable/jetbrains-mono": ["@fontsource-variable/jetbrains-mono@5.2.8", "https://registry.npmmirror.com/@fontsource-variable/jetbrains-mono/-/jetbrains-mono-5.2.8.tgz", {}, "sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q=="],
+
+    "@fontsource/ibm-plex-mono": ["@fontsource/ibm-plex-mono@5.2.7", "https://registry.npmmirror.com/@fontsource/ibm-plex-mono/-/ibm-plex-mono-5.2.7.tgz", {}, "sha512-MKAb8qV+CaiMQn2B0dIi1OV3565NYzp3WN5b4oT6LTkk+F0jR6j0ZN+5BKJiIhffDC3rtBULsYZE65+0018z9w=="],
 
     "@jridgewell/gen-mapping": ["@jridgewell/gen-mapping@0.3.13", "https://registry.npmmirror.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA=="],
 

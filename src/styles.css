@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
-@import '@fontsource-variable/jetbrains-mono';
+@import "@fontsource/ibm-plex-mono";
 
 body {
   @apply m-0;
 }
 
 @theme {
-    --color-foreground: var(--color-foreground);
-    --color-background: var(--color-background);
-    --color-border: var(--color-border);
-    --font-mono:'JetBrains Mono Variable', monospace;
+  --color-foreground: var(--color-foreground);
+  --color-background: var(--color-background);
+  --color-border: var(--color-border);
+  --font-mono: "IBM Plex Mono", monospace;
 }
 
 .root {
@@ -24,7 +24,7 @@ body {
 }
 
 .dark {
-        --color-foreground: #ffffff;
-        --color-background: #000000;
-        --color-border: #333333;
+  --color-foreground: #ffffff;
+  --color-background: #000000;
+  --color-border: #333333;
 }
