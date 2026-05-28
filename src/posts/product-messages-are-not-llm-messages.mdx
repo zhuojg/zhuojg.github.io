@@ -1,0 +1,472 @@
+---
+title: "Product Messages Are Not LLM Messages"
+summary: "Agent products should store what the user experienced separately from what the LLM saw."
+published: true
+publishedAt: "2026-05-28"
+slug: "product-messages-are-not-llm-messages"
+---
+
+Most agent products start from a simple shape:
+
+> A user sends something.  
+> The assistant responds.  
+> The app stores the conversation.
+
+That works for a prototype.
+
+It starts to break when the product becomes real.
+
+Once an agent supports files, images, tools, approvals, citations, artifacts, resumable streams, long-running tasks, or multiple model providers, the word "conversation" starts hiding two different records.
+
+The first record is what the product needs to store.
+
+The second record is what the LLM actually saw.
+
+They are related, but they should not be the same stored object.
+
+The product needs a durable record of the user experience: what the user sent, what the assistant displayed, which files appeared, which tools ran, which artifacts were created, which approvals happened, and how the conversation should be rendered, resumed, searched, audited, and migrated.
+
+The LLM needs a different record: the exact instructions, selected history, resolved attachments, tool definitions, tool observations, retrieved facts, provider-specific input parts, model output, token usage, and errors involved in a particular execution.
+
+Those two records serve different systems.
+
+They change at different speeds.
+
+They fail in different ways.
+
+The central mistake is asking one message object to serve both.
+
+The better rule is simple:
+
+> **Store what the product experienced separately from what the LLM saw.**
+
+Or shorter:
+
+> **Product messages are not LLM messages.**
+
+![Abstract separation between product messages and LLM messages](/product-messages-are-not-llm-messages/01.webp)
+
+## The Hidden Mistake: One Record for Two Worlds
+
+A chat-like interface makes the mistake feel natural.
+
+The user sees a sequence of messages. The model also appears to consume a sequence of messages. So the first implementation often stores one list and uses it for everything.
+
+That list becomes the product history.
+
+Then it becomes the model input.
+
+Then it becomes the streaming state.
+
+Then it becomes the audit log.
+
+Then it becomes the place where tool results, file references, citations, approvals, provider-specific fields, and partial execution state all accumulate.
+
+At that point, the message list is no longer a clean product model. It is an accidental mixture of product state and execution state.
+
+This creates problems on both sides.
+
+The product record becomes polluted by temporary model concerns: provider-specific content parts, prompt formatting, compressed tool observations, retrieved snippets, model-specific attachment formats, and context-management artifacts.
+
+The model input becomes polluted by product concerns: display metadata, timestamps, loading states, preview URLs, frontend editor structures, collapsed panels, UI labels, and other details that exist only so the product can render correctly.
+
+Neither side gets what it wants.
+
+The product wants a stable, durable, user-facing record.
+
+The LLM wants a focused execution input.
+
+Those should not be the same stored object.
+
+![One message object split into product messages and LLM messages](/product-messages-are-not-llm-messages/02.webp)
+
+## Product Messages: What the Product Experienced
+
+Product messages are the canonical record of the conversation from the product's point of view.
+
+They should answer questions like:
+
+- What did the user see?
+- What did the user send?
+- What did the assistant display?
+- Which files were attached?
+- Which tool runs appeared in the conversation?
+- Which artifacts were created?
+- Which citations were shown?
+- Which approvals were requested or granted?
+- Which errors should be visible?
+- How should the conversation be resumed later?
+
+This record should be durable, renderable, searchable, paginatable, auditable, and migration-friendly.
+
+It should preserve stable IDs, timestamps, authorship, message structure, attachment metadata, artifact references, tool progress, approval state, citations, and user-visible errors.
+
+It may also include rich product-specific structure.
+
+A user input might be a structured editor document, not just plain text. It might include images, PDFs, spreadsheets, selected workspace objects, mentions, or pasted screenshots.
+
+An assistant response might include text, generated files, citations, tool activity, expandable logs, intermediate status, or custom UI blocks.
+
+That richness is not a problem.
+
+It is exactly what makes the product useful.
+
+The problem starts when this product-shaped record is treated as the LLM's own record.
+
+The LLM does not need every display field. It does not need every timestamp. It does not need every collapsed panel state. It does not need frontend-only metadata. It does not need to see every object URL or internal UI structure.
+
+Product messages should be allowed to stay product-shaped.
+
+They are the source of truth for the user experience, not a prompt format.
+
+## LLM Messages: What the LLM Saw
+
+LLM messages are different.
+
+They are not the canonical conversation.
+
+They are the execution record of a specific model run.
+
+They should answer questions like:
+
+- Which model was called?
+- Which provider was used?
+- What instructions were included?
+- Which parts of the conversation were selected?
+- Which files or artifacts were resolved?
+- Which tool definitions were available?
+- Which tool results were included?
+- Which retrieved facts or memories were added?
+- What exact input did the model receive?
+- What did the model output?
+- How many tokens were used?
+- What error or finish reason occurred?
+
+This record is valuable, but for a different reason.
+
+Product messages help the app render and resume the conversation.
+
+LLM messages help engineers debug, replay, evaluate, compare, and audit model behavior.
+
+They are an execution trace.
+
+That trace should usually be immutable. Once a model run has happened, the record of what the LLM saw should not silently change because the product conversation was edited, an attachment preview changed, a context policy was updated, or a provider adapter was refactored.
+
+This is especially important for debugging.
+
+When a user asks, "Why did the agent do that?", the product conversation is not enough. You need to know what the LLM actually saw at that moment.
+
+Maybe an older summary was included.
+
+Maybe a tool result was compressed.
+
+Maybe a file was too large and only an excerpt was sent.
+
+Maybe one provider received a native image input while another received a text fallback.
+
+Maybe an approval state was visible in the product but not included in the model input.
+
+Without a separate execution record, these differences are hard to inspect.
+
+With one, they become visible.
+
+## A Conversation Is Not a Prompt Log
+
+A useful mental model is:
+
+> **The conversation is product messages.**  
+> **The prompt log is LLM messages.**
+
+They overlap, but they are not the same thing.
+
+The conversation is organized around the user experience.
+
+The prompt log is organized around model execution.
+
+The conversation should be pleasant to render and stable to evolve.
+
+The prompt log should be exact enough to replay and inspect.
+
+The conversation may contain rich product objects.
+
+The prompt log may contain provider-specific input parts.
+
+The conversation may be edited, redacted, migrated, or re-rendered.
+
+The prompt log should preserve what happened during a specific run.
+
+This distinction becomes more important as the product grows.
+
+A simple text-only assistant may get away with one message list for a while. But an agent product with files, tools, artifacts, permissions, and multiple models needs a stronger boundary.
+
+Do not store the product experience as if it were merely a prompt.
+
+Do not store the prompt as if it were the product experience.
+
+## Why Storage Separation Matters
+
+This may sound like a schema detail, but it is really a source-of-truth problem.
+
+If the product-facing record and the LLM-facing record are the same object, then every change creates tension.
+
+If you optimize the object for rendering, model input becomes noisy.
+
+If you optimize it for model input, product rendering becomes fragile.
+
+If you adapt it to one provider, migration to another provider becomes harder.
+
+If you store only the model-ready form, you lose product details.
+
+If you store only the product-ready form, you cannot reliably replay what the model saw.
+
+Separate storage removes this tension.
+
+The product record can be stable even when the model strategy changes.
+
+The model execution record can be exact even when the product UI evolves.
+
+You can change how you prepare LLM input without rewriting the canonical conversation history.
+
+You can redesign the conversation UI without losing historical model traces.
+
+You can compare different models or providers against the same product conversation.
+
+You can debug one bad run without pretending the whole conversation is the same as that run.
+
+This is the architectural benefit:
+
+> **Product messages preserve the user experience. LLM messages preserve the execution reality.**
+
+Both are important.
+
+They just should not be the same record.
+
+## Multimodal Input Makes This Obvious
+
+Text-only chat can hide the problem.
+
+Multimodal input exposes it immediately.
+
+Suppose a user uploads an image and asks the agent to inspect it.
+
+From the product's point of view, the image is a user-facing object.
+
+The product should remember the file name, media type, upload ID, thumbnail, preview state, permissions, and where the image appeared in the conversation.
+
+Those are product messages.
+
+From the LLM's point of view, the same image may appear in a completely different form.
+
+One model may receive native image input.
+
+Another model may receive compressed image bytes.
+
+Another may receive a text description.
+
+Another may receive only an artifact pointer because the image is too large or not needed in the current step.
+
+Those are LLM messages.
+
+These are not competing versions of the same field. They are different records for different consumers.
+
+The product image card should not mutate every time the model input strategy changes.
+
+The model run should preserve the exact image representation the LLM saw during that execution.
+
+The same product conversation can produce different LLM-facing inputs depending on provider support, token budget, permissions, current task, and context policy.
+
+That is normal.
+
+It is only confusing if the product record and the model record are forced to share one schema.
+
+![A product image card branching into run-specific LLM representations](/product-messages-are-not-llm-messages/03.webp)
+
+## Tool Results Need the Same Boundary
+
+Tool calls create the same issue in another form.
+
+A tool run is part of the product experience.
+
+The product may need to show that a command started, streamed logs, requested approval, failed, retried, completed, and produced an artifact.
+
+The user may need to expand the raw output.
+
+The organization may need to audit the action later.
+
+Those are product messages.
+
+But the LLM may not need the full tool output in every later step.
+
+It may only need a short observation:
+
+> The build failed because dependency X is missing.
+
+Or:
+
+> The query returned 428 rows; the relevant rows are summarized below.
+
+Or:
+
+> The full log is stored as artifact `log_123`; retrieve it only if needed.
+
+Those are LLM messages.
+
+If tool results are stored only as model input, the product loses useful execution detail.
+
+If tool results are stored only as rich product events, the model input becomes noisy or too large.
+
+The answer is not to choose one shape.
+
+The answer is to store both kinds of records separately.
+
+The product keeps the full user-facing and audit-friendly event.
+
+The model run keeps the exact observation, summary, or artifact pointer that the LLM saw.
+
+This also keeps long-running agents manageable. A tool may produce thousands of lines of output, but that does not mean every future model call should carry thousands of lines of historical text.
+
+The product can preserve the full result.
+
+The LLM can receive the useful part.
+
+## Artifacts Are Product Objects, Not Permanent Model Input
+
+Files, generated reports, screenshots, spreadsheets, logs, and documents should usually live as artifacts.
+
+Artifacts are durable product objects.
+
+They can be displayed, downloaded, versioned, permissioned, indexed, searched, cited, and attached to future work.
+
+But an artifact should not automatically become permanent model input.
+
+A spreadsheet may belong to the conversation, but the model may only need one sheet summary for a specific run.
+
+A PDF may belong to the workspace, but the model may only need three extracted sections.
+
+A generated report may be visible to the user, but the model may only need an artifact ID and a short description.
+
+This is another reason product messages and LLM messages should be separate.
+
+Product messages can say:
+
+> The user uploaded `sales-q1.xlsx`.
+
+LLM messages for one run can say:
+
+> The model saw rows 10-42 from the Revenue sheet.
+
+LLM messages for another run can say:
+
+> The model saw a summary of the workbook.
+
+LLM messages for a third run can say:
+
+> The model only saw an artifact pointer.
+
+The artifact stays stable.
+
+The model-facing representation can vary by task.
+
+That is the right separation.
+
+## The Product Will Change. The Run Already Happened.
+
+Imagine looking at an old agent conversation six months later.
+
+The product UI has changed. The file preview component is different. The model provider has changed. The way you prepare image input has changed. Maybe the agent now uses a retrieval system that did not exist when the old run happened.
+
+The conversation should still render as the user experienced it.
+
+The model run should still show what the LLM saw at the time.
+
+Those are two different promises.
+
+If the same stored message object is responsible for both, old conversations become fragile. A harmless UI migration can make model debugging harder. A better context strategy can accidentally rewrite the meaning of an old run. A provider migration can leave historical data in a shape that is neither good product state nor accurate model state.
+
+Separate records avoid that confusion.
+
+The product message says, "This is what happened in the conversation."
+
+The LLM message says, "This is what the model saw during this execution."
+
+The bridge between them can evolve. The records should remain honest.
+
+![The product timeline evolves while the model run snapshot stays fixed](/product-messages-are-not-llm-messages/04.webp)
+
+## Three Small Examples
+
+The easiest way to feel the separation is to look at small product moments.
+
+Take a file upload.
+
+In the product, the file is a card in the conversation. It has a name, a thumbnail, maybe a preview state, maybe permissions, maybe an upload progress indicator. The user sees it as part of the flow.
+
+In the LLM run, that same file might become a short excerpt, a table summary, a native image part, or just a pointer. The model does not need to inherit the whole product card. It needs the useful representation for that run.
+
+Now take a citation.
+
+In the product, the citation is a promise to the user. It should remain clickable, readable, and stable when they come back tomorrow. It belongs to the answer they saw.
+
+In the LLM run, the important record is different: which retrieved chunk was present when the model wrote the answer, and whether that chunk actually influenced the output. The display citation and the retrieved context are related, but they are not the same artifact.
+
+Or take an approval.
+
+The product may show a request, a button, a selected option, a person who approved it, and the time it happened. The LLM may only see a compact fact: "The user approved running the deployment command." The product needs the ceremony. The model needs the consequence.
+
+When these things share one schema, the product starts carrying model-only details and the model starts receiving UI-only details. When they are stored separately, each moment can have the shape that matches its job.
+
+## The Feeling of a Better Boundary
+
+A good boundary should make the system feel calmer.
+
+The conversation can be redesigned without wondering whether a CSS-era field will leak into the next prompt. The model input strategy can change without rewriting old user-visible history. A provider adapter can evolve without mutating the conversation record. A bad run can be inspected without reconstructing the prompt from today's version of the UI.
+
+This is the feeling I want from the architecture:
+
+- The product keeps the story the user experienced.
+- The model run keeps the facts the LLM saw.
+- The two are connected by IDs, not collapsed into one object.
+
+That is enough.
+
+You do not need to turn the product schema into a prompt schema. You do not need to turn the prompt log into a UI schema. You just need to let the two records stay honest about what they are.
+
+## Product Messages Are Not LLM Messages
+
+The mistake is not using the wrong message format.
+
+The mistake is using one stored object for two different realities.
+
+The product has to remember what the user experienced.
+
+The model run has to remember what the LLM saw.
+
+Those are not the same thing.
+
+A conversation is not a prompt log.
+
+A prompt log is not a conversation.
+
+The conversation is product messages: durable, renderable, resumable, searchable, auditable, and migration-friendly.
+
+The model run is LLM messages: exact, execution-specific, replayable, debuggable, evaluable, and provider-aware.
+
+They should be connected.
+
+They should reference each other.
+
+But they should not share the same schema.
+
+This separation gives the product room to evolve without losing execution truth.
+
+It gives the model layer room to improve without corrupting the product history.
+
+It makes multimodal input, tool calls, artifacts, provider differences, debugging, and replay much easier to reason about.
+
+The final rule is simple:
+
+> **Store the conversation the product experienced.**  
+> **Store the execution the LLM saw.**  
+> **Link them, but do not collapse them.**
+
+That is the difference between product messages and LLM messages.
