@@ -103,33 +103,41 @@ This distinction becomes more important as the product grows. A simple text-only
 
 ## Why Storage Separation Matters
 
-This may sound like a schema detail, but it is really a context-management problem. A naive chat product treats the stored message list as the model context: take the messages in order, append the new user input, and send the whole thing to the model. That is simple, but it makes the product record and the model context collapse into the same thing.
+It is tempting to describe this as a schema preference, but the real reason is operational. The model layer needs stable prepared context. The product layer needs durable user history. Those are different stability contracts.
 
-Real agent products cannot live with that assumption for long. Before a model run, the system usually has to choose which history matters, resolve attachments, include or omit tool observations, apply permissions, add retrieved facts, adapt multimodal inputs to provider capabilities, and compact older context when the conversation grows too large. That work is not the conversation itself; it is a context policy applied to the conversation for one execution.
+A naive chat product treats the stored message list as the model context: take the messages in order, append the new user input, and send the whole thing to the model. That is simple, but it makes product history and prepared context collapse into the same thing. Real agent products cannot live with that assumption for long, because the model input has to be selected, resolved, compacted, cached, adapted, and inspected.
 
 ![A product record and message list transformed by context policy into run context](/product-messages-are-not-llm-messages/storage-separation.webp)
 
-This is why storage separation matters. The product record should preserve what the user experienced, while the model record should preserve the result of context management for a specific run. An uploaded image may stay the same product card while becoming native image input, compressed bytes, or a text fallback for different providers. A long tool log may remain available in the product while the model only receives a short observation. A spreadsheet may remain an artifact while one run sees an excerpt and another sees a summary.
+### Prompt Caching Needs Stable Context
+
+Prompt caching makes this separation concrete. Caching works best when the model input has stable, repeatable pieces: system instructions, tool definitions, long-lived summaries, selected history, resolved artifacts, and other context blocks that can be arranged in a predictable order. If every request is assembled directly from a noisy product message list, small product changes can disturb the cacheable prefix for reasons that have nothing to do with model behavior.
+
+That instability is not a product problem. The product should be free to evolve its conversation model, add display metadata, change attachment previews, update tool event UI, or migrate how artifacts are rendered. It becomes a model problem only when the same stored object is also treated as the context sent to the LLM.
+
+Context compaction has the same shape. A compacted summary may be exactly what the model should see for a new run, and it may even become part of the stable cacheable prefix. But that summary should not replace the original product conversation, and it should not silently rewrite what an older run saw. It is prepared context, not the conversation itself.
+
+This does not mean every model call should be frozen forever. Context still changes when the user asks something new, when a relevant file is added, when a tool result matters, or when the compaction policy produces a better summary. The point is that these changes should be intentional model-context changes, not accidental cache misses caused by UI state leaking into the prompt.
+
+An uploaded image shows the same boundary in a smaller form. The product may keep one stable image card with a file name, thumbnail, permissions, and placement in the conversation. The model context may receive native image input, compressed bytes, a text fallback, or only an artifact pointer depending on the provider and the task. Those are not competing versions of the same field; they are different records with different stability rules.
 
 ![A product image card branching into run-specific LLM representations](/product-messages-are-not-llm-messages/03.webp)
 
-If the same stored object has to serve both purposes, every context policy change becomes dangerous. Context compaction is the clearest example: a compacted summary may be the right thing to send to the model for a new run, but it should not replace the original product conversation or silently rewrite what an older run saw. Supporting a new provider can push provider-shaped fields into product history. Optimizing rendering can add noise to the prompt. Separate storage removes that tension: the product can keep the durable conversation, and each model run can keep the exact context that was prepared from it.
+### Old Runs Need Execution Truth
 
-This is the architectural benefit:
-
-> **Product messages preserve the user experience. LLM messages preserve the execution reality.**
-
-Both are important. They just should not be the same record.
-
-## The Product Will Change. The Run Already Happened.
-
-Imagine looking at an old agent conversation six months later. The product UI has changed, the file preview component is different, the model provider has changed, and the way you prepare context has changed. Maybe the agent now uses a retrieval system or compaction policy that did not exist when the old run happened.
+The second reason is historical truth. Imagine looking at an old agent conversation six months later. The product UI has changed, the file preview component is different, the model provider has changed, and the way you prepare context has changed. Maybe the agent now uses a retrieval system or compaction policy that did not exist when the old run happened.
 
 The conversation should still render as the user experienced it, and the model run should still show what the LLM saw at the time. Those are two different promises. If the same stored message object is responsible for both, old conversations become fragile: a harmless UI migration can make model debugging harder, a better context strategy can accidentally rewrite the meaning of an old run, and a provider migration can leave historical data in a shape that is neither good product state nor accurate model state.
 
 Separate records avoid that confusion. The product message says, "This is what happened in the conversation." The LLM message says, "This is what the model saw during this execution." The bridge between them can evolve, but the records should remain honest.
 
 ![The product timeline evolves while the model run snapshot stays fixed](/product-messages-are-not-llm-messages/04.webp)
+
+This is the architectural benefit:
+
+> **Product messages preserve the user experience. LLM messages preserve the execution reality.**
+
+Both are important. They just should not be the same record.
 
 ## The Feeling of a Better Boundary
 
@@ -149,7 +157,7 @@ The mistake is not using the wrong message format. The mistake is using one stor
 
 A conversation is not a prompt log, and a prompt log is not a conversation. The conversation is product messages: durable, renderable, resumable, searchable, auditable, and migration-friendly. The model run is LLM messages: exact, execution-specific, replayable, debuggable, evaluable, and provider-aware.
 
-They should be connected and they should reference each other, but they should not share the same schema. This separation gives the product room to evolve without losing execution truth, gives the model layer room to improve without corrupting the product history, and makes context management much easier to reason about.
+They should be connected and they should reference each other, but they should not share the same schema. This separation gives the product room to evolve without losing execution truth, gives the model layer room to improve without corrupting the product history, and makes context management and prompt caching much easier to reason about.
 
 The final rule is simple:
 
