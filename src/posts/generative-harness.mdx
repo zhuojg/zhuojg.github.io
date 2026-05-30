@@ -1,0 +1,97 @@
+---
+title: "Generative Harness: When Agents Start Writing Their Own Execution Structures"
+summary: "Generative harness marks the shift from agents acting inside developer-defined loops to agents generating their own execution structures, making verification of orchestration—not execution itself—the next core bottleneck."
+published: true
+publishedAt: "2026-05-30"
+slug: "generative-harness"
+---
+
+![Generative harness hero: a fixed developer frame on the left, a fluid branching generated structure on the right, and an incomplete verification layer beneath](/generative-harness/01.webp)
+
+Agent systems have mostly been built around a simple assumption: the model may decide what to do next, but the surrounding execution structure is designed by the developer. We give the model tools, define a loop, manage context, constrain permissions, record traces, add retries, and sometimes insert human approval. The model acts, but the system decides the shape of action.
+
+That assumption is starting to weaken.
+
+A new pattern is emerging across several parts of the agent stack. Models are no longer only choosing the next tool inside a fixed loop. They are beginning to generate parts of the execution structure itself: code that composes tools, scripts that coordinate workers, workflows that decide how a task should be decomposed, parallelized, checked, and summarized. I would call this pattern **generative harness**.
+
+The term is less important than the shift it points to. A harness is the execution structure that turns model capability into task completion. In earlier systems, this structure was fixed or developer-authored. In generative harness, the model begins to produce task-specific orchestration, and the runtime executes it.
+
+This is powerful, but it changes the central problem. The bottleneck is no longer just whether an agent can execute. It is whether we can verify the orchestration it generated.
+
+## From actions to orchestration
+
+The earliest tool-calling agents were deliberately simple. The model selected an action, the tool returned an observation, and the next model call decided what to do with it. This loop is limited and often inefficient, but it has one useful property: feedback is local. If a tool call uses the wrong argument, tries to read a missing file, or hits a permission error, the mistake usually appears immediately. The next turn can correct it.
+
+LangGraph represents a more explicit answer to the same problem. Instead of relying on an implicit loop, the developer can define the orchestration as a graph: state, transitions, checkpoints, human-in-the-loop gates, and durable execution. LangGraph is still an important milestone because it makes agent orchestration visible and controllable rather than hiding it inside a generic loop. But the orchestration is still primarily developer-authored. The graph exists before the task runs, and the model acts within it. LangGraph’s own positioning as a low-level orchestration framework for long-running, stateful agents makes this role clear.
+
+This is a useful contrast for what is changing now. Developer-authored orchestration is valuable because it is inspectable and governable. It is also expensive to design for every task shape. Some tasks require fan-out search, some require map-reduce, some require independent verification, and some require a multi-stage migration followed by tests and repair. A single fixed loop is too weak, while a pre-authored graph can be too static. The natural question is whether the model can generate the right orchestration for the task at hand.
+
+![Orchestration spectrum from tool loop to developer graph to CodeAct to Code Mode to dynamic workflow, with a verification rail below](/generative-harness/02.webp)
+
+CodeAct is one answer to that question at the action level. Its core idea is to let the model use executable code as the action, rather than being limited to JSON calls or predefined text commands. In the CodeAct paper, executable Python code becomes a unified action space that can compose tools and dynamically revise actions based on execution results. This matters because code can express control flow that is awkward to express through one tool call at a time. A model can loop over files, call functions, parse results, aggregate data, check conditions, and return structured output.
+
+TanStack AI Code Mode makes this pattern more concrete for application tools. Instead of forcing the model through a sequence of individual tool calls, it lets the model write and execute TypeScript programs in a sandbox. Those programs can compose tools, branch, loop, parallelize, and return structured results. TanStack describes the motivation directly: one tool call at a time is the bottleneck.
+
+This is already a form of generative harness, but it is still mostly local. The model generates a small executable structure, and the runtime gives relatively fast feedback. The code may fail to parse, throw a runtime error, time out, call a tool incorrectly, or return a value with the wrong shape. The model can then revise the code. The key point is that the generated structure is small enough that execution feedback is still available.
+
+Claude Code dynamic workflows push the idea to a larger scale. Here the model is not just writing a local program that composes a few tools. Claude can write an orchestration script that coordinates many subagents, intermediate results, and verification passes. The official documentation describes dynamic workflows as scripts Claude writes and can rerun to orchestrate many subagents for codebase audits, large migrations, and cross-checked research; Anthropic’s launch post describes Claude dynamically writing orchestration scripts that run tens to hundreds of parallel subagents in a single session.
+
+That is a qualitatively different boundary. CodeAct makes code the action. Code Mode makes local tool composition programmable. Dynamic workflows make task-level orchestration generative.
+
+## The verification gap
+
+The attraction of generative harness is obvious. Complex tasks do not all have the same shape. Some require parallel exploration, some require staged refinement, some require independent critique, and some require a workflow that can collect evidence before making a final claim. If every task has to pass through the same fixed loop, the agent wastes context and time. If every workflow has to be manually designed by a developer, the system cannot adapt quickly enough. Letting the model generate task-specific orchestration is a natural next step.
+
+The problem is that orchestration is harder to verify than action.
+
+A single tool call has local feedback. Did the call succeed? Was the argument valid? Did the file exist? Did the API return data? A code action has execution feedback. Did it run? Did it typecheck? Did the test pass? Did the program return the expected shape? A developer-authored graph can be reviewed before deployment. Its nodes, transitions, and checkpoints can be inspected.
+
+A generated workflow needs a different kind of feedback. Was the task decomposed along the right dimensions? Did each worker receive the right context? Were the right subtasks parallelized? Did the verifier check the real risks, or merely check formatting? Were the completion criteria strong enough? Did the workflow miss an entire class of evidence?
+
+This is what makes generative harness risky. A bad tool call is a local error. A bad code action often fails at runtime. A bad workflow can run successfully and still be wrong.
+
+![Verification gap: generated orchestration on top, execution traces in the middle, and a partial inspection grid below that doesn't fully cover all branches](/generative-harness/03.webp)
+
+The failure mode is subtle because the system may not crash. In fact, it may look more convincing precisely because every stage appears to have run. There are workers, intermediate summaries, a verifier, and a final report. The process looks complete, but the structure of the process may never have been validated.
+
+This is where the analogy to AI slop becomes useful, although it should not be the main topic. AI slop is often discussed as low-quality generated content, but its deeper pattern is unverified completion. The output has sections, fluent language, conclusions, and sometimes citations, yet lacks real judgment or evidence density. Generative harness can produce the same pattern at the process level. A workflow may have stages, workers, verification, and a polished final answer, while the orchestration itself is flawed.
+
+In that sense, AI slop is content-level unverified completion. Workflow slop is process-level unverified completion. The same pattern moves from outputs to execution.
+
+## Orchestration can fail silently
+
+The reason this matters is that a generated workflow is an amplifier. When the orchestration is right, it can broaden search, parallelize investigation, run independent critiques, coordinate large migrations, and check results before they reach the user. When the orchestration is wrong, it can amplify the wrong assumption across every worker.
+
+A task may be decomposed along the wrong dimensions. All subagents may inherit the same flawed framing. A verifier may check whether the final report is well-formed rather than whether the evidence supports the claim. A workflow may treat “all workers returned” as equivalent to “the task is complete.” The final synthesis may hide disagreement between workers because the summarizer was never instructed to preserve conflicts.
+
+These are not ordinary execution errors. They are orchestration errors. They do not necessarily surface as exceptions, failed tests, or invalid tool responses. They can produce polished, structured, and wrong results.
+
+This is the central tension of generative harness: the model can generate the structure of work before we have a mature way to verify that structure.
+
+![Silent orchestration failure: a clean branching workflow surface above, and a shadow layer below where branches are misaligned or disconnected from evidence](/generative-harness/04.webp)
+
+## Toward verified generative harness
+
+The answer is not to avoid generative harness. Fixed loops are too rigid, and developer-authored graphs cannot cover every task shape. If agents are going to work on open-ended tasks, they will need some ability to synthesize execution structures on demand.
+
+The next step is to make those structures governable. A runtime for generative harness cannot only execute tools and launch workers. It also has to inspect, constrain, and validate the generated orchestration. That means workflow preflight, scope and budget checks, context coverage checks, checkpoint reviews, independent verifiers, trace-based final validation, human approval at structural boundaries, and regression tests for reusable workflows.
+
+The important word here is structural. We already have partial ways to validate individual actions and code execution. What we lack is a strong feedback loop for the shape of work itself. A verified generative harness should be able to answer questions such as: What workflow did the model generate? Why was this decomposition chosen? What context did each worker receive? What evidence supports the final answer? What did the verifier actually verify? Where did the workflow exceed its original scope? Should this workflow be saved, reused, or discarded?
+
+This turns the platform’s responsibility upward. It is no longer enough for the runtime to safely execute a tool call. The runtime must supervise generated orchestration.
+
+![Verified generative harness: a branching generated structure above, connected by alignment pins to a verification substrate with checkpoints, trace ledger, scope boundary, and approval gate](/generative-harness/05.webp)
+
+## Closing
+
+The history of agent systems can be read as a gradual movement of orchestration. In early tool-calling agents, orchestration lived in a fixed loop. In LangGraph, it became explicit and developer-authored. In CodeAct and Code Mode, the model began to generate local executable control flow. In dynamic workflows, the model begins to generate task-level orchestration.
+
+That is the rise of generative harness: agents are starting to write their own execution structures.
+
+The opportunity is obvious. A model that can generate the right orchestration for the task can do more than call tools one step at a time. It can adapt the structure of work to the problem.
+
+The risk is just as important. Orchestration can fail silently. A generated workflow can run, produce intermediate artifacts, invoke verifiers, and return a polished final result, while the task was decomposed incorrectly from the start.
+
+The next bottleneck is not execution. It is verification of generated orchestration.
+
+Generative harness may be the next step, but verified generative harness is the part that will make it reliable.
