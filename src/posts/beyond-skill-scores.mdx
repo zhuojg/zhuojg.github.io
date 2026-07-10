@@ -1,0 +1,129 @@
+---
+title: "Beyond Skill Scores: Using Agent Trajectories to Improve What Happens Next"
+summary: "Outcome evaluation can identify the better skill version; trajectory analysis can reveal what to improve next."
+published: true
+publishedAt: "2026-07-10"
+slug: "beyond-skill-scores"
+---
+
+*Outcome evaluation can tell us which skill version is better. Looking at the trajectory may help us decide what to improve next.*
+
+![Product innovation inputs converging on a toothpaste concept before branching into research insights and product directions](/beyond-skill-scores/01.webp)
+
+I have recently been working on product innovation in fast-moving consumer goods. A typical project might begin with a broad question: is there still a meaningful opportunity for a new toothpaste?
+
+An agent working on this question could use several skills. One might analyze consumer interviews, another might identify meaningful audience segments, while others examine social discussions, category trends, or possible product concepts.
+
+The obvious way to evaluate these skills is to record how often they are loaded, assess the quality of their immediate outputs, and compare the final concepts produced with and without them. If a new version of a social research skill consistently produces better toothpaste concepts, then it is reasonable to keep the new version.
+
+For choosing between two versions, this may be enough.
+
+But evaluation is not only used to select the better version. It is also supposed to help us build the next one. Once that becomes the goal, the final score provides much less guidance.
+
+## A Better Result Does Not Tell Us What Improved
+
+Suppose an agent initially explores three toothpaste concepts:
+
+- a repair product for consumers with sensitive teeth;
+- a breath-management product for younger consumers;
+- a gentle stain-removal product for frequent coffee drinkers.
+
+We can score the concepts on consumer relevance, differentiation, evidential support, and feasibility. We can also compare an older social research skill with a new version and find that the new one produces a higher average score.
+
+What should we change next?
+
+The score does not tell us whether the skill discovered a new consumer need, produced better evidence for an existing idea, identified a more specific audience, or merely made the final presentation more persuasive.
+
+A poor result is just as ambiguous. The research questions may have been too broad. A few popular posts may have dominated the sample. The skill may have confused consumer observations with its own interpretation. It may also have found an important contradiction that the rest of the agent later ignored.
+
+These are different failures, and they imply different improvements. One requires better sampling, another requires stronger evidence handling, and a third may require a better interface between skills.
+
+This leads to a distinction that I find useful:
+
+> **Outcome evaluation helps us select between versions. Trajectory analysis helps us form hypotheses about how to improve the next version.**
+
+It is still possible to improve a skill using only outcome evaluation. We can generate many variations, test them, and retain whichever performs best. However, this is essentially black-box search. Inspecting the trajectory may make that search less blind.
+
+This matters even more in product innovation because the concept score is not the real outcome. The true result may not be visible until the product has gone through formulation, consumer testing, launch, and repeat purchase. What we evaluate during development is usually an artifact that serves as a proxy for a much later business result.
+
+The trajectory is not necessarily more truthful, but it offers earlier and denser evidence about how the work developed.
+
+## A Skill Is a Potential Influence
+
+![A skill becomes available early, but changes the research direction only after relevant consumer evidence arrives later](/beyond-skill-scores/02.webp)
+
+A tool call has a clear execution point. The agent calls a search API, receives a result, and continues.
+
+A skill is less observable.
+
+An audience-segmentation skill may enter the context at the beginning of the task, yet nothing immediately changes. Much later, after reviewing interviews and social discussions, the agent might realize that “consumers with sensitive teeth” is not one useful audience.
+
+Some consumers mainly fear immediate pain while brushing. Others worry about enamel damage over time. Some only experience sensitivity after whitening, while another group believes that sensitivity products will not clean effectively enough.
+
+The agent then reorganizes its research around those different motivations. Later social research is performed by segment, and the product concepts become more specific.
+
+The system knows when the skill was loaded, but it cannot directly observe when the skill began to matter. The later behavior may have come from the skill, the model’s existing knowledge, another skill, or the evidence itself.
+
+A useful way to express the difference is:
+
+> **A tool call is an event. A skill is a potential influence.**
+
+That influence may be delayed, indirect, and dependent on other skills. Counting skill loads is therefore useful product analytics, but it is not yet a complete account of how the skill participated in the work.
+
+## Looking for Turning Points
+
+![Multiple evidence paths converge at a turning point before a later input redirects the research toward a different outcome](/beyond-skill-scores/03.webp)
+
+Trying to identify the exact moment when a skill “activated” may be too ambitious. It is difficult to observe and even harder to prove. A more practical experiment may be to look for meaningful changes in the trajectory.
+
+Imagine that the toothpaste agent begins with a simple direction: stronger whitening.
+
+Social research later reveals a recurring tension. Consumers want whiter teeth, but many associate whitening products with sensitivity, irritation, or long-term damage. The agent changes the opportunity from stronger whitening to gentle daily stain removal with sensitivity protection.
+
+This is more than an additional finding. The target audience, the definition of the problem, and the criteria for a good product concept have all changed. It is a turning point in the trajectory.
+
+A later category-analysis skill might then report that whitening is already a crowded market, causing the agent to abandon the direction. On closer inspection, however, its market data may describe conventional whitening products rather than the narrower opportunity around gentle stain removal for consumers who avoid strong whitening products.
+
+The individual analyses can both appear reasonable. The failure becomes visible in the transition between them: broad market evidence has overruled a more specific consumer opportunity without establishing that they describe the same market.
+
+This is why turning points may be a useful diagnostic lens. We can ask whether a change was justified by the evidence available at the time, and then examine how it affected the work that followed.
+
+The goal is not to declare that a particular skill caused the change. In a realistic trajectory, audience segmentation may define the relevant group, social research may expose its unmet need, and product synthesis may turn the two into a concept. The influence is compositional rather than owned by one skill.
+
+## A Small Place to Start
+
+![A research trajectory replayed from one checkpoint with different skill outputs retained or removed in each branch](/beyond-skill-scores/04.webp)
+
+A first implementation does not need to solve causal attribution. It could begin by marking a small number of important state changes in real product innovation trajectories:
+
+- the target audience changed;
+- a central assumption was rejected;
+- a product direction was introduced or abandoned;
+- contradictory evidence changed the confidence of a conclusion;
+- the agent decided that more research was required.
+
+For each change, the system could preserve the state before and after it, the evidence used to justify it, and the skill outputs that were relevant at the time. The field should probably be called `relatedSkillOutputs`, not `causedBySkill`, because a single trajectory rarely proves causation.
+
+After reviewing enough cases, repeated failure patterns may emerge. Perhaps consumer segments are created but never used by downstream research. Perhaps social evidence repeatedly challenges an assumption without changing the product direction. Perhaps broad market data too easily overrides narrower consumer evidence.
+
+These patterns are actionable. They suggest changes to skill instructions, output structures, evidence requirements, or the handoff between skills.
+
+For especially important turning points, we could go one step further and replay the trajectory from immediately before the change. One branch might retain both the audience segments and social findings; another might remove the segmentation; a third might retain the segments while removing one key piece of evidence.
+
+The final branches can still be evaluated by their outcomes. Trajectory analysis does not replace outcome evaluation. It helps decide where to intervene and which experiment to run next.
+
+## Evaluation for Improvement
+
+Usage analytics tell us whether a skill is being adopted. Output evaluation tells us whether it performs its immediate task well. Outcome evaluation tells us whether the assembled agent produces better work.
+
+Trajectory analysis may provide something different: clues about how a skill entered the work, where useful information disappeared, and which interactions repeatedly moved the agent toward stronger or weaker product ideas.
+
+It will not tell us exactly when a skill became active inside the model, nor will it assign precise causal credit among several interacting skills. A first version probably does not need to.
+
+It only needs to make three things easier to inspect:
+
+- what changed in the work;
+- which evidence and skill outputs were involved;
+- what we should try changing next.
+
+> **Outcome evaluation tells us whether the new skill version is better. Trajectory analysis may help us decide what the new version should be.**
