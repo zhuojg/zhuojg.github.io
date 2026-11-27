@@ -62,6 +62,7 @@ function App() {
 
         {allPosts
           .filter((post) => post.published)
+          .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
           .map((post) => (
             <Fragment key={post.slug}>
               <div className="flex flex-col gap-2 col-span-8 md:col-span-4 md:col-start-3">
