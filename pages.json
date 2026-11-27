@@ -7,15 +7,15 @@
       }
     },
     {
+      "path": "/mcp-server-entrypoint-for-vertical-agents",
+      "fromCrawl": true
+    },
+    {
       "path": "/beyond-skill-scores",
       "fromCrawl": true
     },
     {
       "path": "/generative-harness",
-      "fromCrawl": true
-    },
-    {
-      "path": "/mcp-server-entrypoint-for-vertical-agents",
       "fromCrawl": true
     },
     {
@@ -28,5 +28,5 @@
     }
   ],
   "host": "https://zhuojg.github.io/",
-  "lastBuilt": "2026-11-27T10:40:34.142Z"
+  "lastBuilt": "2026-11-27T13:40:24.055Z"
 }
