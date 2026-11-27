@@ -13,6 +13,7 @@ const posts = defineCollection({
     published: z.boolean(),
     publishedAt: z.iso.date(),
     slug: z.string(),
+    tags: z.array(z.string()).optional(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);
